@@ -10,7 +10,7 @@ async function doeverything() {
 	const renderer = new THREE.WebGLRenderer({ alpha: true });
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
-	const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, .1, 10000);
+	const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 5, 30000);
 	scene.background = getSkyBox()
 
 	const lightColor = 0x888888;
@@ -143,6 +143,48 @@ async function doeverything() {
 		})
 	}
 
+	let colorOptions = [
+		0x141060,
+		0x995901,
+		0x246d00,
+		0x680261,
+		0x380534,
+		0x064b6b,
+		0x470404,
+		0x727202,
+	]
+
+	//let buildings3d = new THREE.Object3D()
+	function newBox(x, y, z) {
+		let boxMaterial = new THREE.MeshStandardMaterial()
+		boxMaterial.color = new THREE.Color(colorOptions[Math.floor(Math.random() * colorOptions.length)]);
+		let boxGeometry = new THREE.BoxGeometry(x, y, z)
+		let box = new THREE.Mesh(boxGeometry, boxMaterial)
+		return box
+	}
+
+	let distanceFromCenterOfRoad = 3_000
+
+	let buildings = []
+	for (let i = 0; i < 40; i++) {
+		let building = newBox(1_500, 1_500, Math.random() * 8_000 + 3_000)
+		if (i % 2 == 0) {
+			building.position.x += distanceFromCenterOfRoad
+		} else {
+			building.position.x -= distanceFromCenterOfRoad
+		}
+		building.position.z = 200
+		building.position.y = -40_000 + (1000 * i)
+
+		scene.add(building)
+		buildings.push(building)
+	}
+
+	//scene.add(buildings3d)
+
+
+
+
 	const roadGeometry = new THREE.PlaneGeometry(1500, 20000)
 	const roadMaterial = new THREE.MeshPhongMaterial({
 		map: roadTexture,
@@ -151,6 +193,12 @@ async function doeverything() {
 	backgroundElements.add(roadMesh)
 	roadMesh.position.z = 2
 
+	const floorGeometry = new THREE.PlaneGeometry(80_000, 20000)
+	const floorMaterial = new THREE.MeshPhongMaterial({
+		color: new THREE.Color(0, 1, 0)
+	})
+	let floorMesh = new THREE.Mesh(floorGeometry, floorMaterial)
+	backgroundElements.add(floorMesh)
 
 	let speed = .4;
 	let rotation = .4;
@@ -168,6 +216,8 @@ async function doeverything() {
 
 	}
 
+	scene.fog = new THREE.Fog(0x939300, 20_000, 30_000)
+
 	const composer = new EffectComposer(renderer)
 	const renderPass = new RenderPass(scene, camera)
 	composer.addPass(renderPass)
@@ -178,7 +228,7 @@ async function doeverything() {
 
 	function animate() {
 		g.rotation.z = rotation
-		let actualSpeed = THREE.MathUtils.clamp(speed *20,2,20)
+		let actualSpeed = THREE.MathUtils.clamp(speed * 20, 2, 20)
 
 		for (let i = 0; i < streetLights.length; i++) {
 			if (streetLights[i].frame.position.y >= 2000) {
@@ -198,6 +248,13 @@ async function doeverything() {
 			palmTrees[i].position.y += actualSpeed
 		}
 
+		for (let i = 0; i < buildings.length; i++) {
+			if (buildings[i].position.y >= 1000) {
+				buildings[i].position.y = -40_000
+			}
+			buildings[i].position.y += actualSpeed
+		}
+
 		let wheelRotation = THREE.MathUtils.degToRad(actualSpeed * .5)
 		frontLeft.rotateX(wheelRotation)
 		frontRight.rotateX(-wheelRotation)
@@ -207,7 +264,6 @@ async function doeverything() {
 		requestAnimationFrame(animate);
 		composer.render(scene, camera);
 	}
-
 
 	function getSkyBox() {
 		const cubeLoaderloader = new THREE.CubeTextureLoader();
@@ -234,7 +290,9 @@ async function doeverything() {
 		const fullWidth = renderer.domElement.width
 		let middle = fullWidth / 2.0
 		let something = (middle - X) / middle
-		return something * Math.PI / 2
+		return something * Math.PI / 4
 	}
+
 }
 doeverything()
+
