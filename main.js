@@ -156,7 +156,7 @@ async function doeverything() {
 
 	//let buildings3d = new THREE.Object3D()
 	function newBox(x, y, z) {
-		let boxMaterial = new THREE.MeshStandardMaterial()
+		let boxMaterial = new THREE.MeshLambertMaterial()
 		boxMaterial.color = new THREE.Color(colorOptions[Math.floor(Math.random() * colorOptions.length)]);
 		let boxGeometry = new THREE.BoxGeometry(x, y, z)
 		let box = new THREE.Mesh(boxGeometry, boxMaterial)
