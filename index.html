@@ -12,14 +12,27 @@
 
 	<title>Nate Maile</title>
 	<style>
-:root {
-  color-scheme: light dark;
-}
+		:root {
+			color-scheme: light dark;
+		}
+
+		canvas {
+			background: linear-gradient(180deg, rgba(212, 43, 190, 1) 0%, rgba(61, 207, 244, 1) 100%);
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			border: none;
+		}
+
 		body {
 			margin: 0;
 			min-height: 100vh;
 			font-family: Arial, Helvetica, sans-serif;
-			background-image: url("assets/desert-drive.webp");
+			background: linear-gradient(180deg, rgba(212, 43, 190, 1) 0%, rgba(61, 207, 244, 1) 100%);
+			/*background-image: url("assets/desert-drive.webp");*/
 			background-size: cover;
 			height: 100vh;
 			padding: 0;
@@ -27,28 +40,9 @@
 			color: white;
 		}
 
-		/*.sidebar {
-			width: 1em;
-			height: 100%;
-			z-index: 1000;
-			background-color: aquamarine;
-			position: fixed;
-			top: 0;
+		.meganamezone {
+			text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 		}
-
-		.sidebar:hover {
-			width: 50px;
-			animation: 3s linear slidein;
-		}
-
-		.sidebar-right {
-			right: 0;
-		}
-
-		.sidebar-left {
-			left: 0;
-		}
-		*/
 
 		.namezone {
 			margin: auto;
@@ -73,7 +67,7 @@
 		.linkbox {
 			margin: 1rem 0;
 			font-size: 2rem;
-			background: linear-gradient(127deg, rgba(255, 244, 46, 1) 0%, rgba(245, 41, 235, 1) 100%);
+			background: linear-gradient(127deg, rgba(255, 244, 46, .9) 0%, rgba(245, 41, 235, .9) 100%);
 			border-radius: 9999px;
 			padding: 1rem 1rem;
 			display: flex;
@@ -90,7 +84,7 @@
 			transition: all 0.05s ease-in-out;
 		}
 
-		a{
+		a {
 			color: white;
 			text-decoration: none;
 		}
@@ -114,11 +108,13 @@
 
 <body>
 	<div style="max-width: 576px;margin: 0 auto;">
-		<div class="namezone">
-			Nate Maile
-		</div>
-		<div class="descriptionzone">
-			Online Entertainer, Software Engineer
+		<div class="meganamezone">
+			<div class="namezone">
+				Nate Maile
+			</div>
+			<div class="descriptionzone">
+				Online Entertainer, Software Engineer
+			</div>
 		</div>
 		<div class="linkzone">
 			<a href=https://github.com/npmaile/blog/tree/main/posts class="linkbox"><img class="linkimage"
@@ -148,7 +144,7 @@
 				<div>Youtube</div>
 				<img class="icon" src="icons/youtube.svg" alt="twitter icon" />
 			</a>
-			<a href=https://www.facebook.com/profile.php?id=61555006415503 class="linkbox"><img
+			<a href="https://www.facebook.com/profile.php?id=61555006415503" class="linkbox"><img
 					class="linkimage" src="assets/consider_the_following.png">
 				<div>Facebook</div>
 				<img class="icon" src="icons/facebook.svg" alt="facebook icon" />
@@ -167,9 +163,12 @@
 				<div>Archives</div>
 				<img class="icon" src="icons/application-zip.svg" alt="twitter icon" />
 			</a>
-		</div class="footer">
-		Views expressed on any of these pages aren't necessarily even my own, much less the views of any
-		employer.
+		</div>
+		<div class="footer">
+
+			Views expressed on any of these pages aren't necessarily even my own, much less the views of any
+			employer.
+		</div>
 	</div>
 	<!--
 	<div class="sidebar sidebar-right">
@@ -180,6 +179,10 @@
 	</div>
 	-->
 </body>
+<script type="module" src="./main.js"></script>
 
 </html>
-<!-- If you found this, I'm not sure what you were expecting -->
+<!-- car animation by "Cyberpunk car" (https://skfb.ly/6QUAI) by 4d_Bob is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). -->
+<!--"Palm Tree Pack LOWPOLY" (https://skfb.ly/oMLOn) by EvanLegrand is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). -->
+<!-- "Low Poly Palms Pack" (https://skfb.ly/6AZQA) by Rusoski is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). -->
+<!--"Street Light" (https://skfb.ly/6wUWF) by KMB3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).-->
