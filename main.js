@@ -20,12 +20,12 @@ async function doeverything() {
 	scene.add(globalLight)
 
 	let textureloader = new THREE.TextureLoader()
-	const roadTexture = await textureloader.loadAsync('public/textures/road.png')
+	const roadTexture = await textureloader.loadAsync('/textures/road.png')
 	let loader = new GLTFLoader()
-	const wheelData = await loader.loadAsync('public/wheel.glb')
-	const carData = await loader.loadAsync('public/car.glb')
-	const palmData = await loader.loadAsync('public/palm.glb')
-	const streetlightData = await loader.loadAsync('public/street_light.glb')
+	const wheelData = await loader.loadAsync('/wheel.glb')
+	const carData = await loader.loadAsync('/car.glb')
+	const palmData = await loader.loadAsync('/palm.glb')
+	const streetlightData = await loader.loadAsync('/street_light.glb')
 
 	const wheelMesh = wheelData.scene
 	// get the rear right in the right location
@@ -268,12 +268,12 @@ async function doeverything() {
 	function getSkyBox() {
 		const cubeLoaderloader = new THREE.CubeTextureLoader();
 		return cubeLoaderloader.load([
-			'public/skybox/right.png',
-			'public/skybox/left.png',
-			'public/skybox/back.png',
-			'public/skybox/background.png',
-			'public/skybox/top.png',
-			'public/skybox/bottom.png',
+			'/skybox/right.png',
+			'/skybox/left.png',
+			'/skybox/back.png',
+			'/skybox/background.png',
+			'/skybox/top.png',
+			'/skybox/bottom.png',
 		]);
 	}
 
