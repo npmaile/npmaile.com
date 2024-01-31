@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "three": "^0.160.0",
+    "vite": "^5.0.10"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}
