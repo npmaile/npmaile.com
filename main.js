@@ -216,7 +216,7 @@ async function doeverything() {
 
 	}
 
-	scene.fog = new THREE.Fog(0x939300, 20_000, 30_000)
+	//scene.fog = new THREE.Fog(0x939300, 20_000, 30_000)
 
 	const composer = new EffectComposer(renderer)
 	const renderPass = new RenderPass(scene, camera)
