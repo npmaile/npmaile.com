@@ -20,12 +20,36 @@ async function doeverything() {
 	scene.add(globalLight)
 
 	let textureloader = new THREE.TextureLoader()
-	const roadTexture = await textureloader.loadAsync('/textures/road.png')
 	let loader = new GLTFLoader()
-	const wheelData = await loader.loadAsync('/wheel.glb')
-	const carData = await loader.loadAsync('/car.glb')
-	const palmData = await loader.loadAsync('/palm.glb')
-	const streetlightData = await loader.loadAsync('/street_light.glb')
+
+	let promises = [
+	 textureloader.loadAsync('/textures/road.png'),
+	 loader.loadAsync('/wheel.glb'),
+	 loader.loadAsync('/car.glb'),
+	 loader.loadAsync('/palm.glb'),
+	 loader.loadAsync('/street_light.glb'),
+	]
+
+	let roadTexture 
+	let wheelData 
+	let carData 
+	let palmData 
+	let streetlightData 
+
+	let xyz = false
+	
+	Promise.all(promises).then(([roadp,wheelp,carp,palmp,streetlightp]) =>{
+		roadTexture = roadp	
+		wheelData = wheelp
+		carData = carp
+		palmData = palmp
+		streetlightData = streetlightp
+		xyz = true
+	})
+
+	while (xyz == false){
+		await new Promise(r => setTimeout(r, 200));
+	}
 
 	const wheelMesh = wheelData.scene
 	// get the rear right in the right location
