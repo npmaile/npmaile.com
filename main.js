@@ -48,7 +48,7 @@ async function doeverything() {
 	})
 
 	while (xyz == false){
-		await new Promise(r => setTimeout(r, 200));
+		await new Promise(r => setTimeout(r, 20));
 	}
 
 	const wheelMesh = wheelData.scene
