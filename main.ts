@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 //setup stuff
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass';
 
 async function doeverything() {
 	let scene = new THREE.Scene();
@@ -20,36 +20,32 @@ async function doeverything() {
 	scene.add(globalLight)
 
 	let textureloader = new THREE.TextureLoader()
-	let loader = new GLTFLoader()
+	let loader: GLTFLoader = new GLTFLoader()
 
 	let promises = [
-	 textureloader.loadAsync('/textures/road.png'),
-	 loader.loadAsync('/wheel.glb'),
-	 loader.loadAsync('/car.glb'),
-	 loader.loadAsync('/palm.glb'),
-	 loader.loadAsync('/street_light.glb'),
+		textureloader.loadAsync('/textures/road.png'),
+		loader.loadAsync('/wheel.glb'),
+		loader.loadAsync('/car.glb'),
+		loader.loadAsync('/palm.glb'),
+		loader.loadAsync('/street_light.glb'),
 	]
 
-	let roadTexture 
-	let wheelData 
-	let carData 
-	let palmData 
-	let streetlightData 
+	let roadTexture
+	let wheelData
+	let carData
+	let palmData
+	let streetlightData
 
 	let xyz = false
-	
-	Promise.all(promises).then(([roadp,wheelp,carp,palmp,streetlightp]) =>{
-		roadTexture = roadp	
+
+	await Promise.all(promises).then(([roadp, wheelp, carp, palmp, streetlightp]) => {
+		roadTexture = roadp
 		wheelData = wheelp
 		carData = carp
 		palmData = palmp
 		streetlightData = streetlightp
 		xyz = true
 	})
-
-	while (xyz == false){
-		await new Promise(r => setTimeout(r, 20));
-	}
 
 	const wheelMesh = wheelData.scene
 	// get the rear right in the right location
@@ -81,7 +77,7 @@ async function doeverything() {
 	carMesh.add(rearLeft)
 	carMesh.add(rearRight)
 
-	let wheels = []
+	let wheels: any[] = []
 	wheels.push(frontLeft)
 	wheels.push(frontRight)
 	wheels.push(rearLeft)
@@ -98,7 +94,7 @@ async function doeverything() {
 	const backgroundElements = new THREE.Object3D()
 	scene.add(backgroundElements)
 	const palmMaterial = new THREE.MeshLambertMaterial()
-	palmMaterial.color = 0x00FF00
+	palmMaterial.color = new THREE.Color(0x00FF00)
 	const palmGeometry = palmData.scene.children[0].geometry
 	let palmMesh = new THREE.Mesh(palmGeometry, palmMaterial)
 
@@ -108,7 +104,7 @@ async function doeverything() {
 	palmMesh.position.y = -3000// 
 	palmMesh.rotateX(THREE.MathUtils.degToRad(97))
 
-	let palmTrees = []
+	let palmTrees: THREE.Mesh[] = []
 	for (let i = 0; i < 20; i++) {
 		let newPalmMesh = palmMesh.clone(true)
 		//newPalmMesh.scale.set(80, 80, 80)
@@ -132,22 +128,16 @@ async function doeverything() {
 	streetlight.position.x = -400
 	streetlight.position.y = -300// 
 
-	//scene.add(streetlight)
 	let spotLight = new THREE.SpotLight(0xffffff, 1, 0, Math.PI / 3);
-
-
-	let spotLighttarget = new THREE.Object3D()
-	streetlight.add(spotLighttarget)
-	spotLight.lookAt(spotLighttarget)
 
 	spotLight.position.y = 4.8
 	spotLight.position.z = 1.9
 	spotLight.position.x = -2.2
 	spotLight.decay = 1
-	spotLight.intensity = 1000
+	spotLight.intensity = 800
 	spotLight.penumbra = .5
 
-	let streetLights = []
+	let streetLights: THREE.Object3D[] = []
 	for (let i = 0; i < 20; i++) {
 		let streetLightFrame = streetlight.clone(true)
 		let streetLightLight = spotLight.clone(true)
@@ -161,10 +151,7 @@ async function doeverything() {
 		streetLightFrame.position.y = -20_000 + (1_000 * i)
 
 		backgroundElements.add(streetLightFrame)
-		streetLights.push({
-			frame: streetLightFrame,
-			light: streetLightLight
-		})
+		streetLights.push(streetLightFrame)
 	}
 
 	let colorOptions = [
@@ -179,7 +166,7 @@ async function doeverything() {
 	]
 
 	//let buildings3d = new THREE.Object3D()
-	function newBox(x, y, z) {
+	function newBox(x: number, y: number, z: number) {
 		let boxMaterial = new THREE.MeshLambertMaterial()
 		boxMaterial.color = new THREE.Color(colorOptions[Math.floor(Math.random() * colorOptions.length)]);
 		let boxGeometry = new THREE.BoxGeometry(x, y, z)
@@ -189,7 +176,7 @@ async function doeverything() {
 
 	let distanceFromCenterOfRoad = 3_000
 
-	let buildings = []
+	let buildings: THREE.Object3D[] = []
 	for (let i = 0; i < 40; i++) {
 		let building = newBox(1_500, 1_500, Math.random() * 8_000 + 3_000)
 		if (i % 2 == 0) {
@@ -200,7 +187,7 @@ async function doeverything() {
 		building.position.z = 200
 		building.position.y = -40_000 + (1000 * i)
 
-		scene.add(building)
+		backgroundElements.add(building)
 		buildings.push(building)
 	}
 
@@ -255,12 +242,13 @@ async function doeverything() {
 		let actualSpeed = THREE.MathUtils.clamp(speed * 20, 2, 20)
 
 		for (let i = 0; i < streetLights.length; i++) {
-			if (streetLights[i].frame.position.y >= 2000) {
-				streetLights[i].frame.position.y = -10_000
+			if (streetLights[i].position.y >= 2000) {
+				streetLights[i].position.y = -10_000
 			}
-			let size = THREE.MathUtils.smoothstep(streetLights[i].frame.position.y, -20_000, -2000) * 80
-			streetLights[i].frame.scale.set(size, size, size)
-			streetLights[i].frame.position.y += actualSpeed
+			let size = THREE.MathUtils.smoothstep(streetLights[i].position.y, -20_000, -2000) * 80
+			streetLights[i].scale.set(size, size, size)
+
+			streetLights[i].position.y += actualSpeed
 		}
 
 		for (let i = 0; i < palmTrees.length; i++) {
@@ -269,6 +257,7 @@ async function doeverything() {
 			}
 			let size = THREE.MathUtils.smoothstep(palmTrees[i].position.y, -20_000, -2000) * 80
 			palmTrees[i].scale.set(size, size, size)
+
 			palmTrees[i].position.y += actualSpeed
 		}
 
@@ -286,7 +275,7 @@ async function doeverything() {
 		rearRight.rotateX(-wheelRotation)
 
 		requestAnimationFrame(animate);
-		composer.render(scene, camera);
+		composer.render()
 	}
 
 	function getSkyBox() {
@@ -301,7 +290,7 @@ async function doeverything() {
 		]);
 	}
 
-	function calculateSpeedFromMouseY(Y) {
+	function calculateSpeedFromMouseY(Y: number) {
 		const fullHeight = renderer.domElement.height
 		if (Y == 0) {
 			Y = 1
@@ -310,7 +299,7 @@ async function doeverything() {
 
 	}
 
-	function calculateAngleOfRotationFromMouseX(X) {
+	function calculateAngleOfRotationFromMouseX(X: number) {
 		const fullWidth = renderer.domElement.width
 		let middle = fullWidth / 2.0
 		let something = (middle - X) / middle

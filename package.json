@@ -4,6 +4,7 @@
     "vite": "^5.0.10"
   },
   "dependencies": {
+    "@types/three": "^0.161.2",
     "gasp": "^0.0.2",
     "gsap": "^3.12.5",
     "path": "^0.12.7"
