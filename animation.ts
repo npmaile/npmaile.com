@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 
-let namezone = document.querySelector(".meganamezone")
+let namezone = document.querySelector(".meganamezone")!
 namezone.addEventListener("click", goAway)
 
 let width = document.body.clientWidth
@@ -10,7 +10,6 @@ function goAway() {
 	links.forEach((dot, i) => {
 		gsap.to(dot, {
 			duration: .4,
-			ease: links[i],
 			delay: i * 0.06,
 			rotationZ: 40,
 			x: width,
@@ -21,10 +20,9 @@ function goAway() {
 }
 
 function comeBack() {
-		links.forEach((dot, i) => {
+	links.forEach((dot, i) => {
 		gsap.to(dot, {
 			duration: 1,
-			ease: links[i],
 			delay: i * 0.06,
 			rotationZ: 0,
 			x: 0,
