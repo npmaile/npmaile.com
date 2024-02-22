@@ -1,8 +1,0 @@
-- rotating wheels
-- fix skybox
-- make the sun smaller 
-- add mountains
-- palm texture
-- car texture
-- road texture
-- add streetlights
