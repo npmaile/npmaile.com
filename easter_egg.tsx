@@ -31,3 +31,10 @@ function comeBack() {
 	namezone.removeEventListener("click", comeBack)
 	namezone.addEventListener("click", goAway)
 }
+
+function badfont() {
+	document.querySelector("body")!.style.fontFamily = "perfectfont"
+};
+
+let bottomarea = document.querySelector(".footer")!
+bottomarea.addEventListener("click", badfont)
