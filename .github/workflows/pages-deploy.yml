@@ -17,4 +17,4 @@ jobs:
           npx vite build
           mv ./dist ./_site
       - uses: actions/upload-pages-artifact@v3
-      - uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v3
